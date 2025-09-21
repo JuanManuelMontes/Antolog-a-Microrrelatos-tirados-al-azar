@@ -38,7 +38,15 @@
     border-radius:16px; outline:1px solid var(--edge);
     margin-bottom: 6em;
   }
-  .viewport{ width:min(360px,74vw); aspect-ratio:1/1; perspective:1100px; display:grid; place-items:center; position:relative; }
+  .viewport{
+  width:min(360px,74vw);
+  aspect-ratio:1/1;
+  perspective:1100px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  transform: scale(0.8); /* Reducido 20% */
+}
   .shadow{ position:absolute; bottom:2%; width:70%; height:12%; background:radial-gradient(50% 60% at 50% 50%, rgba(0,0,0,.55), rgba(0,0,0,0) 70%); filter:blur(4px); pointer-events:none; }
   .dice{
     width:77%; height:77%;
@@ -101,12 +109,13 @@
   .face[data-n="6"] .logo-img { display: grid; }
 
   .face,[data-n]{ transform-style:preserve-3d }
-  .face[data-n="1"]{ transform: translateZ(170px) }
-  .face[data-n="2"]{ transform: rotateY(90deg) translateZ(170px) }
-  .face[data-n="3"]{ transform: rotateY(180deg) translateZ(170px) }
-  .face[data-n="4"]{ transform: rotateY(-90deg) translateZ(170px) }
-  .face[data-n="5"]{ transform: rotateX(90deg) translateZ(170px) }
-  .face[data-n="6"]{ transform: rotateX(-90deg) translateZ(170px) }
+  .face[data-n="1"]{ transform: translateZ(136px) }
+.face[data-n="2"]{ transform: rotateY(90deg) translateZ(136px) }
+.face[data-n="3"]{ transform: rotateY(180deg) translateZ(136px) }
+.face[data-n="4"]{ transform: rotateY(-90deg) translateZ(136px) }
+.face[data-n="5"]{ transform: rotateX(90deg) translateZ(136px) }
+.face[data-n="6"]{ transform: rotateX(-90deg) translateZ(136px) }
+
 
   .controls{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
   button{
