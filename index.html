@@ -36,17 +36,25 @@
     display:grid; gap:16px; place-items:center; padding:18px;
     background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
     border-radius:16px; outline:1px solid var(--edge);
-    margin-bottom: 6em;
   }
+  
+  .dice-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 2em;
+  }
+  
   .viewport{
-  width:min(360px,74vw);
-  aspect-ratio:1/1;
-  perspective:1100px;
-  display:grid;
-  place-items:center;
-  position:relative;
-  transform: scale(0.8); /* Reducido 20% */
-}
+    width:min(200px,24vw);
+    aspect-ratio:1/1;
+    perspective:1100px;
+    display:grid;
+    place-items:center;
+    position:relative;
+  }
   .shadow{ position:absolute; bottom:2%; width:70%; height:12%; background:radial-gradient(50% 60% at 50% 50%, rgba(0,0,0,.55), rgba(0,0,0,0) 70%); filter:blur(4px); pointer-events:none; }
   .dice{
     width:77%; height:77%;
@@ -56,40 +64,44 @@
   .face{
     position:absolute; inset:0;
     background:radial-gradient(160% 120% at 50% 20%, #2b3a63 0%, #1f2a47 55%, #141b2d 100%);
-    border-radius:22px; display:grid; place-items:center;
+    border-radius:12px; display:grid; place-items:center;
     box-shadow: inset 0 0 0 2px rgba(255,255,255,.05), inset 0 25px 60px rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.55);
   }
   .face::after{
-    content:""; position:absolute; inset:-1px; border-radius:22px;
+    content:""; position:absolute; inset:-1px; border-radius:12px;
     background:linear-gradient(to bottom right, rgba(255,255,255,.10), rgba(255,255,255,0) 30%), radial-gradient(80% 60% at 30% 10%, rgba(255,255,255,.15), transparent 60%);
     mix-blend-mode:screen; pointer-events:none;
   }
-  .edge{ position:absolute; inset:0; border-radius:22px; box-shadow:0 0 0 2px rgba(255,255,255,.05); pointer-events:none; }
+  .edge{ position:absolute; inset:0; border-radius:12px; box-shadow:0 0 0 2px rgba(255,255,255,.05); pointer-events:none; }
   
   .pips {
     width: 64%; height: 64%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: repeat(3, 1fr); 
+    grid-template-columns: repeat(3, 1fr);  
+    grid-template-rows: repeat(3, 1fr);  
     gap: 10%;
   }
   
+  /* --- CORRECCIÓN DEL LOGO --- */
   .logo-img {
-    width: 64%; height: 64%;
+    width: 70%; /* Aumentamos el tamaño del contenedor del logo */
+    height: 70%;
     display: none;
-    place-items: center;
-    transform: translateY(-2rem);
-  }
+   display: none;
+  place-items: center;
+  transform: translateY(-15%); /* <-- Añade esta línea para subirlo */
+}
   
   .logo-img img {
-    max-width: 100%;
+    max-width: 100%; /* La imagen ocupa todo su contenedor */
     max-height: 100%;
     object-fit: contain;
     display: block;
   }
+  /* --- FIN DE LA CORRECCIÓN --- */
 
   .pip {
-    width:18px; height:18px; border-radius:50%;
+    width:12px; height:12px; border-radius:50%;
     background:radial-gradient(circle at 30% 30%, #fff 0%, #dfe6ff 35%, #b7c7ff 70%, #8ea3ff 100%);
     justify-self:center; align-self:center; box-shadow:0 2px 6px rgba(0,0,0,.35); display:none;
   }
@@ -109,12 +121,12 @@
   .face[data-n="6"] .logo-img { display: grid; }
 
   .face,[data-n]{ transform-style:preserve-3d }
-  .face[data-n="1"]{ transform: translateZ(136px) }
-.face[data-n="2"]{ transform: rotateY(90deg) translateZ(136px) }
-.face[data-n="3"]{ transform: rotateY(180deg) translateZ(136px) }
-.face[data-n="4"]{ transform: rotateY(-90deg) translateZ(136px) }
-.face[data-n="5"]{ transform: rotateX(90deg) translateZ(136px) }
-.face[data-n="6"]{ transform: rotateX(-90deg) translateZ(136px) }
+  .face[data-n="1"]{ transform: translateZ(77px) }
+  .face[data-n="2"]{ transform: rotateY(90deg) translateZ(77px) }
+  .face[data-n="3"]{ transform: rotateY(180deg) translateZ(77px) }
+  .face[data-n="4"]{ transform: rotateY(-90deg) translateZ(77px) }
+  .face[data-n="5"]{ transform: rotateX(90deg) translateZ(77px) }
+  .face[data-n="6"]{ transform: rotateX(-90deg) translateZ(77px) }
 
 
   .controls{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
@@ -128,7 +140,7 @@
   .muted{ background:#24304a; color:#d6e1ff; box-shadow:none; font-weight:700 }
 
   .card{ background:var(--card); border:1px solid var(--edge); border-radius:16px; padding:20px; min-height:300px; }
-  .badge{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px; background:#1e2a45; color:#9fc1ff; font-weight:800; margin-right:8px; border:1px solid var(--edge); }
+  .badge{ display:inline-grid; place-items:center; min-width:28px; height:28px; padding: 0 6px; border-radius:8px; background:#1e2a45; color:#9fc1ff; font-weight:800; margin-right:8px; border:1px solid var(--edge); }
   h2{margin:0 0 6px; font-size:1.15rem}
   .author{color:var(--muted); margin:0 0 14px}
 
@@ -147,108 +159,238 @@
 <body>
   <main class="app" role="main">
     <header>
-      <h1>Microrrelatos tirados al azar - Volumen 1</h1>
+      <h1>Microrrelatos tirados al azar - Triple C </h1>
       <p>Apretá el botón y dejá que el azar te regale un microrrelato. También podés presionar <strong>R</strong> o sacudir el celular.</p>
     </header>
 
     <section class="stage" aria-label="Juego de azar">
       <div class="dice-wrap">
-        <div class="viewport" aria-hidden="true">
-          <div class="shadow"></div>
-          <div class="dice" id="dice">
-            <div class="face" data-n="1"><span class="edge"></span><div class="pips">
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-            </div></div>
-            <div class="face" data-n="2"><span class="edge"></span><div class="pips">
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-            </div></div>
-            <div class="face" data-n="3"><span class="edge"></span><div class="pips">
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-            </div></div>
-            <div class="face" data-n="4"><span class="edge"></span><div class="pips">
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-            </div></div>
-            <div class="face" data-n="5"><span class="edge"></span><div class="pips">
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-            </div></div>
-            <div class="face" data-n="6"><span class="edge"></span>
-              <div class="pips">
+        
+        <div class="dice-container">
+          
+          <div class="viewport" aria-hidden="true">
+            <div class="shadow"></div>
+            <div class="dice" id="dice1">
+              <div class="face" data-n="1"><span class="edge"></span><div class="pips">
                 <div class="pip"></div><div class="pip"></div><div class="pip"></div>
                 <div class="pip"></div><div class="pip"></div><div class="pip"></div>
                 <div class="pip"></div><div class="pip"></div><div class="pip"></div>
-              </div>
-              <div class="logo-img">
-                <img src="Logo triple C.jpeg" alt="Logo Triple C">
+              </div></div>
+              <div class="face" data-n="2"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="3"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="4"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="5"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="6"><span class="edge"></span>
+                <div class="pips">
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                </div>
+                <div class="logo-img">
+                  <img src="Logo triple C.jpeg" alt="Logo Triple C">
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="controls">
-          <button id="rollBtn" aria-label="Lanzar el dado">Que la suerte te acompañe</button>
+          
+          <div class="viewport" aria-hidden="true">
+            <div class="shadow"></div>
+            <div class="dice" id="dice2">
+              <div class="face" data-n="1"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="2"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="3"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="4"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="5"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="6"><span class="edge"></span>
+                <div class="pips">
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                </div>
+                <div class="logo-img">
+                  <img src="Logo triple C.jpeg" alt="Logo Triple C">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="viewport" aria-hidden="true">
+            <div class="shadow"></div>
+            <div class="dice" id="dice3">
+              <div class="face" data-n="1"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="2"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="3"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="4"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="5"><span class="edge"></span><div class="pips">
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+              </div></div>
+              <div class="face" data-n="6"><span class="edge"></span>
+                <div class="pips">
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  <div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                </div>
+                <div class="logo-img">
+                  <img src="Logo triple C.jpeg" alt="Logo Triple C">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div> <div class="controls">
+          <button id="rollBtn" aria-label="Lanzar los dados">¡Qué la suerte te acompañe!</button>
           <button id="imgBtn" class="muted" disabled>Descargar imagen (IG)</button>
         </div>
       </div>
 
       <article class="card" id="card" aria-live="polite">
-        <div class="small" style="margin-bottom:6px; color:var(--muted);">Resultado</div>
-        <h2><span class="badge" id="badge">—</span><span id="title">Aún no has tirado el dado</span></h2>
+        <div class="small" style="margin-bottom:6px; color:var(--muted);">Suma total</div>
+        <h2><span class="badge" id="badge">—</span><span id="title">Aún no has tirado los dados</span></h2>
         <p class="author" id="author">Cuando salga un número, verás aquí el texto correspondiente.</p>
         <div class="text" id="content"></div>
       </article>
     </section>
 
-    <footer>© 2025 — Triple C · Que la suerte te acompañe</footer>
+    <footer>© 2025 — Triple C · Antología Microrrelatos tirados al azar</footer>
   </main>
 
 <script>
 /* —— Textos —— */
 const pieces = [
-  { n:1, title:"LA FORTUNA", author:"PABLO GONZ", text:
+  { n:3, title:"LA FORTUNA", author:"PABLO GONZ", text:
 `¿Quieres saber qué es la fortuna sin levantarte del sillón? Pues existe un método pero comporta cierto riesgo. Toma un dado grande. ¿Lo tienes? Si no lo tienes, suspende la lectura. ¿Ya tienes el dado? Bien, métetelo en la boca y cierra los labios. Mírate a un espejo y constata que pareces una persona normal. ¿OK? Estás preparado para empezar el ejercicio. Mueve la cabeza suavemente a la derecha y después a la izquierda. Luego repite el gesto seis veces, con mayor violencia cada vez. Si no se te rompe ningún diente, eso es la fortuna.` },
 
-  { n:2, title:"RESUMEN URGENTE", author:"PATRICIA NASELLO", text:
-`Apuesta, incluso, lo que le resulta imprescindible y cuando lo imprescindible se acaba, en cuanta covacha ilegal halla, apuesta lo ajeno. Una vez inmerso en esa fuerza que lo succiona, descubre que retener el trabajo, así como a la familia, es una tarea titánica para su energía ya escasa. Ahora, da vueltas dentro de un remolino sobre cuyas rocas punzantes del fondo, hasta el buen nombre pierde.
-Y falta poco para que este mal que le arrebata el ánimo se extienda, e infecte con violencia la poca sangre libre de tormento que aún le resta.` },
+  { n:4, title:"RESUMEN URGENTE", author:"PATRICIA NASELLO", text:
+`Apuesta, incluso, lo que le resulta imprescindible y cuando lo imprescindible se acaba, en cuanta covacha ilegal halla, apuesta lo ajeno. Una vez inmerso en esa fuerza que lo succiona, descubre que retener el trabajo, así como a la familia, es una tarea titánica para su energía ya escasa. Ahora, da vueltas dentro de un remolino sobre cuyas rocas punzantes del fondo, hasta el buen nombre pierde.\nY falta poco para que este mal que le arrebata el ánimo se extienda, e infecte con violencia la poca sangre libre de tormento que aún le resta.` },
 
-  { n:3, title:"AZAR", author:"LEO MERCADO", text:
+  { n:5, title:"AZAR", author:"LEO MERCADO", text:
 `Estuvo toda la noche perdiendo guita en la ruleta. Toda la noche, sin excepción, como desde hacía mucho tiempo no pasaba. Solitario y sin corazonadas, apostaba a números inservibles o imaginarios y perdía. Cuando se le acabó el último centavo salió del garito enfurecido y veloz y se topó con ella, que tenía unos ojos infinitos, mirándolo fijamente. Pero como venía con la racha del perdedor tampoco se dio cuenta y siguió de largo.` },
 
-  { n:4, title:"LUDOPATÍA", author:"LORENA CITÓN", text:
-`Cuando el psicólogo informó su diagnóstico, negó suavemente con la cabeza, suspiró y con calma inquietante le dijo:
-- Apuesto a que estás equivocado` },
+  { n:6, title:"Triple C (Cofradía del Cuento Corto)", author:"La suerte está de tu lado. Has invocado al oráculo de Triple C. Al lanzar nuevamente los dados, se te otorgará un microrrelato relacionado con tu subconsciente.", text: "" },
 
-  { n:5, title:"SUERTE", author:"GUILLERMO IGLESIAS", text:
-`Ella tan profesional independiente, tan discreto Chanel o lo que sea. Tan Kerouac que imaginate, y alguna Pizarnik aunque me mate Tan Las Palabras y la Cosas y lento pinot gris oxigenado. Uno tan cerveza en palangana, tan bestia choripán que no se note. Ella departiendo amablemente y uno tan perdiéndose en su escote. Ella tanto cello en la penumbra y uno BB King alcoholizado. Ella  tan mirá si no es divino inclinada sobre el tiesto señalado y uno sí, precioso y redondito (nunca logra mirar hacia otro lado) .Tan no puede funcionar hacete cargo y sigue funcionando, sin embargo.` },
+  { n:7, title:"LUDOPATÍA", author:"LORENA CITÓN", text:
+`Cuando el psicólogo informó su diagnóstico, negó suavemente con la cabeza, suspiró y con calma inquietante le dijo:\n—Apuesto a que estás equivocado` },
 
-  { n:6, title:"Triple C (Cofradía del Cuento Corto)", author:"QUE LA SUERTE TE ACOMPAÑE (microrrelatos tirados al azar)", text: "" }
+  { n:8, title:"SUERTE", author:"GUILLERMO IGLESIAS", text:
+`Ella tan profesional independiente, tan discreto Chanel o lo que sea. Tan Kerouac que imaginate, y alguna Pizarnik aunque me mate Tan Las Palabras y la Cosas y lento pinot gris oxigenado. Uno tan cerveza en palangana, tan bestia choripán que no se note. Ella departiendo amablemente y uno tan perdiéndose en su escote. Ella tanto cello en la penumbra y uno BB King alcoholizado. Ella tan mirá si no es divino inclinada sobre el tiesto señalado y uno sí, precioso y redondito (nunca logra mirar hacia otro lado) .Tan no puede funcionar hacete cargo y sigue funcionando, sin embargo.` },
+
+  { n:9, title:"ALMA", author:"CLAUDIA SÁNCHEZ", text:
+`Le ofrecieron una suma importante si el experimento funcionaba. Necesitaban el dinero, pero empezó a arrepentirse. Tarde. Su cuerpo ya no obedecía y su mente se cristalizaba. Yacía sobre una báscula con forma de cama, el frío corriéndole por las venas. Pensó en su esposa y su hijo, en el fin de sus penurias. Los médicos no entendían qué sucedía. El monitor titilaba: –21 g, luego 42 g, luego –63 g. El corazón era una línea recta. Las maniobras fallaron. El experimento fracasó. Al llevarlo a la morgue, entraban dos camillas más: su mujer y su hijo, fallecidos en un accidente.` },
+
+  { n:10, title:"HOLY CRAPS!", author:"DÉBORA BENACOT", text:
+`Con la túnica arremangada hasta los codos (bendita sea la etiqueta casual pero maldito el calor infernal de este antro) y el brillo vicioso en las pupilas celestiales, los lanza otra vez. Su buena racha se mantiene. Qué genio eras, Albert, pero en esto te equivocaste: el susodicho no sólo juega a los dados, sino que los carga, aunque ningún crupier note el artilugio.\nDe todos modos, también tiene acciones mayoritarias en el Casino de Almas. Es sabido que la casa siempre gana.` },
+
+  { n:11, title:"TENTACIONES", author:"DIANA RAQUEL HERNÁNDEZ", text:
+`Él me esperaba en un auto lujoso, me habló de los últimos sucesos en su vida: concluir el posgrado, casa y auto nuevos; todo lo que cualquiera pudiera desear. Habló de sus mujeres en mi ausencia. "¿Tú no me vas a contar nada? No me digas que te dio amnesia y ahora los negarás a todos ellos. Propuso detenernos a beber algo.\nEntramos a un hotel lujoso, nada que ver a con los que antes visité: un gran salón para parejas, todos con el aperitivo en la mano, el momento previo a escabullirse a una habitación. El juego de seducción no se hizo esperar. "No puedo aceptar. Tú eres el diablo, ¿verdad?".` },
+  
+  { n:12, title:"Triple C (Cofradía del Cuento Corto)", author:"QUE LA SUERTE TE ACOMPAÑE", text: "" },
+  
+  { n:13, title:"DESORGANIZADO", author:"CARO FERNÁNDEZ", text:
+`Apostó todo al número 22 en la quiniela matutina. Esa noche soñó con el loco.` },
+  
+  { n:14, title:"HADO DE UN DÍA CUALQUIERA", author:"FERNANDO ECHENIQUE", text:
+`La ventana quedó apenas abierta y el viento esconde las entradas bajo la cama. Javier las busca desesperado, con sueño y lagañas, sin saber que esos boletos ya no son suyos, que la obra de esta noche no será para él. Sale tarde y pierde el micro. Sube al siguiente. Una mirada azul con zapatos rojos alegra su mañana. Coquetean, sonríen, se distrae. Suena el timbre y descubre que se pasó tres paradas. Baja apurado, voltea para mirarla una vez más sin escuchar el chillido. Tirado en el asfalto, mientras se desvanece, piensa en las ganas que tenía de ir a esa obra y mira los tacones rojos que lloran azul.` },
+  
+  { n:15, title:"LA PRIMERA PIEDRA", author:"JOSÉ MANUEL ORTÍZ SOTO", text:
+`No pensó en el dueño del almacén. Ni si éste contaba con un seguro contra actos vandálicos. O si había cámaras de vigilancia observándolo. Y menos en si él, en su próxima condición de bárbaro juvenil, tendría el tiempo suficiente para eludir a los gendarmes y sus porras. A Juanito solo le pareció irresistible cascar aquel cristal de una pedrada. Y así lo hizo.` },
+
+  { n:16, title:"UN DETALLITO", author:"HERNÁN CHALO INDIVERI", text:
+`La final, la tenía ganada antes de clasificar, mis menús habían cautivado a 3 de los 4 jurados desde el comienzo del certamen. El plato con el que ganaría, hubiera sido “Bife de hígado de cerdo feliz, papas noisette del altiplano boliviano, finas hierbas, hummus de garbanzo kabuli con morrón asado”. El postre “Tres uvas a la miel vaporizada” sería el boom de la noche.\nEn la semifinal, el azar puso mi nombre en el tazón del jurado envidioso. Buscó la mínima excusa para eliminarme. Suerte para él, que un coriandro, se le incrustó en la muela careada. Una simple semilla.` },
+
+  { n:17, title:"EL JUEGO DEL DESTINO", author:"JESÚS OLAGUE", text:
+`Aburridos, los dioses señalan a ciegas un lugar de la tierra y lanzan el dado del mal; a cada cara corresponde una catástrofe, así se suceden guerras, desastres, epidemias. El dado del bien se extravió hace miles de años; por más que la humanidad implore, los milagros ya no existen.` },
+
+  { n:18, title:"Triple C (Cofradía del Cuento Corto)", author:"QUE LA SUERTE TE ACOMPAÑE", text: "" }
 ];
 const byN = Object.fromEntries(pieces.map(p=>[p.n,p]));
 
 /* —— DOM —— */
-const dice = document.getElementById('dice');
+const dice1 = document.getElementById('dice1');
+const dice2 = document.getElementById('dice2');
+const dice3 = document.getElementById('dice3');
+const allDice = [dice1, dice2, dice3];
+const allFaces = document.querySelectorAll('.face');
+
 const rollBtn = document.getElementById('rollBtn');
 const imgBtn = document.getElementById('imgBtn');
 const badge = document.getElementById('badge');
 const titleEl = document.getElementById('title');
 const authorEl = document.getElementById('author');
 const contentEl = document.getElementById('content');
-const faces = document.querySelectorAll('.face');
+const sumDescription = document.querySelector('.small'); 
 
 let isRolling = false;
-let lastN = 0;
+let lastSum = 0;
+let lastRolls = []; 
 
 /* —— Dado —— */
-function randomFace(){ let n = Math.floor(Math.random()*6)+1; if(n===lastN) n = (n % 6) + 1; return n; }
+function getRandomRolls(){
+  let n1 = Math.floor(Math.random()*6)+1;
+  let n2 = Math.floor(Math.random()*6)+1;
+  let n3 = Math.floor(Math.random()*6)+1;
+  let sum = n1 + n2 + n3;
+  
+  while(sum === lastSum) {
+    n1 = Math.floor(Math.random()*6)+1;
+    sum = n1 + n2 + n3;
+  }
+  return { n1, n2, n3, sum };
+}
+
 function baseOrientation(n){
   switch(n){
     case 1: return 'rotateX(0deg) rotateY(0deg)';
@@ -259,19 +401,32 @@ function baseOrientation(n){
     case 6: return 'rotateX(90deg)';
   }
 }
-function spinTo(n){
-  const turnsY = 360 * (2 + Math.floor(Math.random()*2));
-  const turnsX = 360 * (1 + Math.floor(Math.random()*2));
-  dice.style.transition = 'transform 1.05s cubic-bezier(.2,.7,.1,1)';
-  dice.style.transform = `rotateX(${turnsX}deg) rotateY(${turnsY}deg) ${baseOrientation(n)}`;
+
+function spinTo(n1, n2, n3){
+  const rolls = [n1, n2, n3];
+  allDice.forEach((dice, index) => {
+    const n = rolls[index];
+    const turnsY = 360 * (2 + Math.floor(Math.random()*2));
+    const turnsX = 360 * (1 + Math.floor(Math.random()*2));
+    dice.style.transition = 'transform 1.05s cubic-bezier(.2,.7,.1,1)';
+    dice.style.transform = `rotateX(${turnsX}deg) rotateY(${turnsY}deg) ${baseOrientation(n)}`;
+  });
 }
-function reveal(n){
-  const p = byN[n];
-  badge.textContent = n;
+
+function reveal(rolls, sum){
+  const p = byN[sum];
+  if (!p) {
+    console.error("No se encontró historia para la suma:", sum);
+    return;
+  }
+  
+  badge.textContent = sum;
   titleEl.textContent = p.title;
   authorEl.textContent = p.author;
+
+  sumDescription.innerHTML = `Suma total: ${rolls[0]} + ${rolls[1]} + ${rolls[2]} =`;
   
-  if (n === 6) {
+  if (sum === 6 || sum === 12 || sum === 18) {
     contentEl.innerHTML = `<img src="Logo triple C.jpeg" alt="Logo Triple C" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">`;
   } else {
     contentEl.innerHTML = p.text
@@ -280,20 +435,28 @@ function reveal(n){
       .join('');
   }
   imgBtn.disabled = false;
+  lastSum = sum;
+  lastRolls = rolls;
 }
+
 function roll(){
   if(isRolling) return;
   isRolling = true;
   rollBtn.disabled = true; imgBtn.disabled = true;
-  const n = randomFace(); 
-  lastN = n; 
-  spinTo(n);
   
-  faces.forEach(face => {
+  const { n1, n2, n3, sum } = getRandomRolls();  
+  
+  spinTo(n1, n2, n3);
+  
+  allFaces.forEach(face => {
       face.setAttribute('data-n', face.getAttribute('data-n'));
   });
 
-  setTimeout(()=>{ reveal(n); isRolling = false; rollBtn.disabled = false; }, 1100);
+  setTimeout(()=>{ 
+    reveal([n1, n2, n3], sum);
+    isRolling = false; 
+    rollBtn.disabled = false; 
+  }, 1100);
 }
 
 /* --- Funciones para generar la imagen --- */
@@ -327,7 +490,7 @@ function drawJustifiedLine(ctx, text, x, y, width){
     if(i<gaps) xx += ctx.measureText(w).width + spaceWidth + Math.max(extra,0);
   }
 }
-async function renderImageFor(p){
+async function renderImageFor(p, rolls){
     const W=1080, H=1350, PAD=96;
     const canvas = document.createElement('canvas');
     canvas.width=W;
@@ -345,14 +508,14 @@ async function renderImageFor(p){
     ctx.strokeRect(2,2,W-4,H-4);
 
     return new Promise((resolve, reject) => {
-        if (p.n === 6) {
+        if (p.n === 6 || p.n === 12 || p.n === 18) {
             const img = new Image();
             img.crossOrigin = 'Anonymous';
             img.onload = () => {
-                const imgWidth = 800;
+                const imgWidth = W * 0.75;
                 const imgHeight = (img.height / img.width) * imgWidth;
                 const x = (W - imgWidth) / 2;
-                const y = (H - imgHeight) / 2 - 76;
+                const y = (H - imgHeight) / 2;
                 ctx.drawImage(img, x, y, imgWidth, imgHeight);
 
                 const footer = 'Triple C · Que la suerte te acompañe';
@@ -369,43 +532,49 @@ async function renderImageFor(p){
             let titleSize=64, authorSize=38, bodySize=44;
             const family='system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial';
             const INDENT = 40;
-            const X=PAD, CW=W-PAD*2; 
+            const X=PAD, CW=W-PAD*2;  
             let y=PAD;
-            
+
+            ctx.fillStyle='#9fb2d9';
+            ctx.font=`400 28px ${family}`;
+            const sumText = `Suma total: ${rolls[0]} + ${rolls[1]} + ${rolls[2]} = ${p.n}`;
+            ctx.fillText(sumText, X, y);
+            y += 28 * 1.5;
+
             ctx.fillStyle='#eaf2ff'; ctx.font=`700 ${titleSize}px ${family}`;
             const titleLines = wrapParagraph(ctx, p.title, CW);
             for(const L of titleLines){ ctx.fillText(L.text, X, y+titleSize); y += titleSize*1.15; }
             
-            y += 18; 
+            y += 18;  
             ctx.fillStyle='#9fb2d9'; ctx.font=`600 ${authorSize}px ${family}`;
             ctx.fillText(p.author.toUpperCase(), X, y+authorSize); y += authorSize*1.35;
             
             ctx.fillStyle='#eef3ff';
             let linesMeta;
             while(true){
-              ctx.font=`400 ${bodySize}px ${family}`;
-              linesMeta = [];
-              for(const para of p.text.split(/\n+/)){
-                const ls = wrapParagraph(ctx, para, CW - INDENT);
-                linesMeta.push(...ls, { text:'', first:false, last:true, isGap:true });
-              }
-              if(linesMeta.length && linesMeta[linesMeta.length-1].isGap) linesMeta.pop();
-              const needed = y + linesMeta.reduce((acc,l)=> acc + (l.isGap ? bodySize*0.7 : bodySize*1.35), 0) + PAD;
-              if(needed <= H || bodySize <= 28) break;
-              bodySize -= 2;
+                ctx.font=`400 ${bodySize}px ${family}`;
+                linesMeta = [];
+                for(const para of p.text.split(/\n+/)){
+                    const ls = wrapParagraph(ctx, para, CW - INDENT);
+                    linesMeta.push(...ls, { text:'', first:false, last:true, isGap:true });
+                }
+                if(linesMeta.length && linesMeta[linesMeta.length-1].isGap) linesMeta.pop();
+                const needed = y + linesMeta.reduce((acc,l)=> acc + (l.isGap ? bodySize*0.7 : bodySize*1.35), 0) + PAD;
+                if(needed <= H || bodySize <= 28) break;
+                bodySize -= 2;
             }
             
             for(const L of linesMeta){
-              if(L.isGap){ y += bodySize*0.7; continue; }
-              const x0 = X + (L.first ? INDENT : 0);
-              const usable = CW - (L.first ? INDENT : 0);
-              const yLine = y + bodySize;
-              if(!L.last && L.text.includes(' ')){
-                drawJustifiedLine(ctx, L.text, x0, yLine, usable);
-              }else{
-                ctx.fillText(L.text, x0, yLine);
-              }
-              y += bodySize*1.35;
+                if(L.isGap){ y += bodySize*0.7; continue; }
+                const x0 = X + (L.first ? INDENT : 0);
+                const usable = CW - (L.first ? INDENT : 0);
+                const yLine = y + bodySize;
+                if(!L.last && L.text.includes(' ')){
+                    drawJustifiedLine(ctx, L.text, x0, yLine, usable);
+                }else{
+                    ctx.fillText(L.text, x0, yLine);
+                }
+                y += bodySize*1.35;
             }
             
             const footer='Triple C · Que la suerte te acompañe';
@@ -417,30 +586,29 @@ async function renderImageFor(p){
     });
 }
 async function saveImage(){
-    const p = byN[lastN];
-    if(!p) return;
-    try {
-        const blob = await renderImageFor(p);
-        if(blob){
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            const safeTitle = p.title.replace(/[^\w\-]+/g,'_');
-            a.href = url;
-            a.download = p.n === 6 ? 'Triple_C_Logo.png' : `${safeTitle}.png`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-        } else {
-            console.error("No se pudo generar la imagen para descargar.");
-        }
-    } catch (error) {
-        console.error("Error al generar la imagen: ", error);
-    }
+  const p = byN[lastSum];
+  if(!p) return;
+  try {
+      const blob = await renderImageFor(p, lastRolls);
+      if(blob){
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          const safeTitle = p.title.replace(/[^\w\-]+/g,'_');
+          a.href = url;
+          a.download = (p.n === 6 || p.n === 12 || p.n === 18) ? 'Triple_C_Logo.png' : `${safeTitle}.png`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+      } else {
+          console.error("No se pudo generar la imagen para descargar.");
+      }
+  } catch (error) {
+      console.error("Error al generar la imagen: ", error);
+  }
 }
 
 /* —— Eventos —— */
-const diceEl = document.getElementById('dice');
 rollBtn.addEventListener('click', roll);
 document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='r') roll(); });
 imgBtn.addEventListener('click', saveImage);
