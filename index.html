@@ -46,11 +46,11 @@
   }
   
   .dice-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    justify-content: center;
     gap: 10px;
     width: 100%;
-    margin-bottom: 2em;
+    margin-bottom: 6em; 
   }
   
   .viewport{
@@ -62,6 +62,7 @@
     place-items:center;
     position:relative;
     margin: 0 auto;
+    transform: scale(0.9); 
   }
   
   .shadow{ position:absolute; bottom:2%; width:70%; height:12%; background:radial-gradient(50% 60% at 50% 50%, rgba(0,0,0,.55), rgba(0,0,0,0) 70%); filter:blur(4px); pointer-events:none; }
@@ -134,13 +135,13 @@
   .face[data-n="6"] .logo-img { display: grid; }
 
   .face,[data-n]{ transform-style:preserve-3d }
-  
-  .face[data-n="1"]{ transform: translateZ(3.8em) }
-  .face[data-n="2"]{ transform: rotateY(90deg) translateZ(3.8em) }
-  .face[data-n="3"]{ transform: rotateY(180deg) translateZ(3.8em) }
-  .face[data-n="4"]{ transform: rotateY(-90deg) translateZ(3.8em) }
-  .face[data-n="5"]{ transform: rotateX(90deg) translateZ(3.8em) }
-  .face[data-n="6"]{ transform: rotateX(-90deg) translateZ(3.8em) }
+  /* La distancia de traslación es la mitad del tamaño de la cara (3.85em) */
+  .face[data-n="1"]{ transform: translateZ(3.85em) } 
+  .face[data-n="2"]{ transform: rotateY(90deg) translateZ(3.85em) } 
+  .face[data-n="3"]{ transform: rotateY(180deg) translateZ(3.85em) } 
+  .face[data-n="4"]{ transform: rotateY(-90deg) translateZ(3.85em) } 
+  .face[data-n="5"]{ transform: rotateX(90deg) translateZ(3.85em) } 
+  .face[data-n="6"]{ transform: rotateX(-90deg) translateZ(3.85em) } 
   
   .controls{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
   button{ appearance:none; border:0; cursor:pointer; background:linear-gradient(180deg, var(--btn), var(--btn-hover)); color:#fff; padding:12px 18px; border-radius:12px; font-weight:800; letter-spacing:.3px; box-shadow:0 8px 20px rgba(29,92,255,.35); }
@@ -154,23 +155,36 @@
   .small{font-size:.875rem}
   footer{color:var(--muted); font-size:.875rem; text-align:center}
 
-  .text-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1em;
+  /* Estilos para el título 2X1 */
+  #title { 
+    display: block; 
+    line-height: 1.1; 
   }
-  .text-nav button {
-    background: #24304a;
-    color: #d6e1ff;
-    box-shadow: none;
+  #title span[style] {
+    font-size: 0.9em;
+    font-weight: 400 !important;
+    display: block;
+    color: var(--fg);
+    margin-top: 4px;
+    letter-spacing: normal;
+  }
+  
+  .text-dupla {
+    margin-bottom: 25px; 
+  }
+  .text-dupla:not(:first-child) {
+    border-top: 2px solid #1e2a45; 
+    padding-top: 25px;
+  }
+  .text-dupla h3 {
+    margin: 0 0 4px; 
+    font-size: 1.1rem; 
     font-weight: 700;
-    padding: 8px 12px;
-    border-radius: 8px;
   }
-  .text-nav button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+  .text-dupla .author {
+    margin-bottom: 15px;
   }
+
 </style>
 </head>
 <body>
@@ -205,8 +219,7 @@
         <h2><span class="badge" id="badge">—</span><span id="title">Aún no has tirado los dados</span></h2>
         <p class="author" id="author">Cuando salga un número, verás aquí el texto correspondiente.</p>
         <div class="text" id="content"></div>
-        <div class="text-nav" id="textNav"></div>
-      </article>
+        </article>
     </section>
     <footer>© 2025 — Triple C · Antología Microrrelatos tirados al azar</footer>
   </main>
@@ -218,7 +231,7 @@ document.querySelectorAll('.dice').forEach(dice => {
             <div class="face" data-n="${i}">
                 <span class="edge"></span>
                 <div class="pips">${'<div class="pip"></div>'.repeat(9)}</div>
-                <div class="logo-img"><img src="logotripleC.jpeg" alt="Logo Triple C"></div>
+                <div class="logo-img"><img src="logotriplec.jpeg" alt="Logo Triple C"></div>
             </div>`;
     }
     dice.innerHTML = facesHTML;
@@ -226,38 +239,41 @@ document.querySelectorAll('.dice').forEach(dice => {
 
 /* —— Textos —— */
 const pieces = [
-  { n:3, isMulti: true, stories: [{ title:"El Oráculo de Triple C", author:"Triple C", text: "La suerte está de tu lado. Has invocado al oráculo de Triple C. Al lanzar nuevamente los dados, se te otorgará un microrrelato relacionado con tu subconsciente." }] },
-  { n:4, isMulti: true, stories: [{ title:"El Oráculo de Triple C", author:"Triple C", text: "La suerte está de tu lado. Has invocado al oráculo de Triple C. Al lanzar nuevamente los dados, se te otorgará un microrrelato relacionado con tu subconsciente." }] },
-  { n:5, title:"LA FORTUNA", author:"PABLO GONZ", text: `¿Quieres saber qué es la fortuna sin levantarte del sillón? Pues existe un método pero comporta cierto riesgo. Toma un dado grande. ¿Lo tienes? Si no lo tienes, suspende la lectura. ¿Ya tienes el dado? Bien, métetelo en la boca y cierra los labios. Mírate a un espejo y constata que pareces una persona normal. ¿OK? Estás preparado para empezar el ejercicio. Mueve la cabeza suavemente a la derecha y después a la izquierda. Luego repite el gesto seis veces, con mayor violencia cada vez. Si no se te rompe ningún diente, eso es la fortuna.` },
-  { n:6, title:"RESUMEN URGENTE", author:"PATRICIA NASELLO", text: `Apuesta, incluso, lo que le resulta imprescindible y cuando lo imprescindible se acaba, en cuanta covacha ilegal halla, apuesta lo ajeno. Una vez inmerso en esa fuerza que lo succiona, descubre que retener el trabajo, así como a la familia, es una tarea titánica para su energía ya escasa. Ahora, da vueltas dentro de un remolino sobre cuyas rocas punzantes del fondo, hasta el buen nombre pierde.\nY falta poco para que este mal que le arrebata el ánimo se extienda, e infecte con violencia la poca sangre libre de tormento que aún le resta.` },
-  { n:7, title:"AZAR", author:"LEO MERCADO", text: `Estuvo toda la noche perdiendo guita en la ruleta. Toda la noche, sin excepción, como desde hacía mucho tiempo no pasaba. Solitario y sin corazonadas, apostaba a números inservibles o imaginarios y perdía. Cuando se le acabó el último centavo salió del garito enfurecido y veloz y se topó con ella, que tenía unos ojos infinitos, mirándolo fijamente. Pero como venía con la racha del perdedor tampoco se dio cuenta y siguió de largo.` },
-  { n:8, title:"LUDOPATÍA", author:"LORENA CITÓN", text: `Cuando el psicólogo informó su diagnóstico, negó suavemente con la cabeza, suspiró y con calma inquietante le dijo:\n—Apuesto a que estás equivocado.` },
-  { n:9, isMulti: true, stories: [
-      { title:"ALMA", author:"CLAUDIA SÁNCHEZ", text: `Le ofrecieron una suma importante si el experimento funcionaba. Necesitaban el dinero, pero empezó a arrepentirse. Tarde. Su cuerpo ya no obedecía y su mente se cristalizaba. Yacía sobre una báscula con forma de cama, el frío corriéndole por las venas. Pensó en su esposa y su hijo, en el fin de sus penurias. Los médicos no entendían qué sucedía. El monitor titilaba: –21 g, luego 42 g, luego –63 g. El corazón era una línea recta. Las maniobras fallaron. El experimento fracasó. Al llevarlo a la morgue, entraban dos camillas más: su mujer y su hijo, fallecidos en un accidente.` },
-      { title:"HOLY CRAPS!", author:"DÉBORA BENACOT", text: `Con la túnica arremangada hasta los codos (bendita sea la etiqueta casual pero maldito el calor infernal de este antro) y el brillo vicioso en las pupilas celestiales, los lanza otra vez. Su buena racha se mantiene. Qué genio eras, Albert, pero en esto te equivocaste: el susodicho no sólo juega a los dados, sino que los carga, aunque ningún crupier note el artilugio. De todos modos, también tiene acciones mayoritarias en el Casino de Almas. Es sabido que la casa siempre gana.` }
+  { n:3, stories: [{ title:"El Oráculo de Triple C", author:"Triple C", text: "La suerte está de tu lado. Has invocado al oráculo de Triple C. Al lanzar nuevamente los dados, se te otorgará un microrrelato relacionado con tu subconsciente." }] },
+  { n:4, title:"AZAROSO", author:"ROQUE GRILLO", text: `Se lavó las manos y salió al patio. Colocó, sobre cada una de las cinco tumbas, las doradas cápsulas de bronce. Después entró en su biblioteca y dejó el Smith & Wesson. Se sirvió un vodka. Con ojos lacrimosos aceptó que ya no le quedaban amigos. Y también que ya no jugaría más a esa ruleta que le enseñara su abuelo Iván a orillas del Mar Negro.` },
+  { n:5, stories: [
+    { title:"ALMA", author:"CLAUDIA SÁNCHEZ", text: `Le ofrecieron una suma importante si el experimento funcionaba. Necesitaban el dinero, pero empezó a arrepentirse. Tarde. Su cuerpo ya no obedecía y su mente se cristalizaba. Yacía sobre una báscula con forma de cama, el frío corriéndole por las venas. Pensó en su esposa y su hijo, en el fin de sus penurias. Los médicos no entendían qué sucedía. El monitor titilaba: –21 g, luego 42 g, luego –63 g. El corazón era una línea recta. Las maniobras fallaron. El experimento fracasó. Al llevarlo a la morgue, entraban dos camillas más: su mujer y su hijo, fallecidos en un accidente.` },
+    { title:"HOLY CRAPS!", author:"DÉBORA BENACOT", text: `Con la túnica arremangada hasta los codos (bendita sea la etiqueta casual pero maldito el calor infernal de este antro) y el brillo vicioso en las pupilas celestiales, los lanza otra vez. Su buena racha se mantiene. Qué genio eras, Albert, pero en esto te equivocaste: el susodicho no sólo juega a los dados, sino que los carga, aunque ningún crupier note el artilugio. De todos modos, también tiene acciones mayoritarias en el Casino de Almas. Es sabido que la casa siempre gana.` }
   ]},
+  { n:6, title:"RESUMEN URGENTE", author:"PATRICIA NASELLO", text: `Apuesta, incluso, lo que le resulta imprescindible y cuando lo imprescindible se acaba, en cuanta covacha ilegal halla, apuesta lo ajeno. Una vez inmerso en esa fuerza que lo succiona, descubre que retener el trabajo, así como a la familia, es una tarea titánica para su energía ya escasa. Ahora, da vueltas dentro de un remolino sobre cuyas rocas punzantes del fondo, hasta el buen nombre pierde.
+Y falta poco para que este mal que le arrebata el ánimo se extienda, e infecte con violencia la poca sangre libre de tormento que aún le resta.` },
+  { n:7, title:"AZAR", author:"LEO MERCADO", text: `Estuvo toda la noche perdiendo guita en la ruleta. Toda la noche, sin excepción, como desde hacía mucho tiempo no pasaba. Solitario y sin corazonadas, apostaba a números inservibles o imaginarios y perdía. Cuando se le acabó el último centavo salió del garito enfurecido y veloz y se topó con ella, que tenía unos ojos infinitos, mirándolo fijamente. Pero como venía con la racha del perdedor tampoco se dio cuenta y siguió de largo.` },
+  { n:8, stories: [
+    { title:"LUDOPATÍA", author:"LORENA CITÓN", text: `Cuando el psicólogo informó su diagnóstico, negó suavemente con la cabeza, suspiró y con calma inquietante le dijo:\n—Apuesto a que estás equivocado.` },
+    { title:"HOLY CRAPS!", author:"DÉBORA BENACOT", text: `Con la túnica arremangada hasta los codos (bendita sea la etiqueta casual pero maldito el calor infernal de este antro) y el brillo vicioso en las pupilas celestiales, los lanza otra vez. Su buena racha se mantiene. Qué genio eras, Albert, pero en esto te equivocaste: el susodicho no sólo juega a los dados, sino que los carga, aunque ningún crupier note el artilugio. De todos modos, también tiene acciones mayoritarias en el Casino de Almas. Es sabido que la casa siempre gana.` }
+  ]},
+  { n:9, title:"LA FORTUNA", author:"PABLO GONZ", text: `¿Quieres saber qué es la fortuna sin levantarte del sillón? Pues existe un método pero comporta cierto riesgo. Toma un dado grande. ¿Lo tienes? Si no lo tienes, suspende la lectura. ¿Ya tienes el dado? Bien, métetelo en la boca y cierra los labios. Mírate a un espejo y constata que pareces una persona normal. ¿OK? Estás preparado para empezar el ejercicio. Mueve la cabeza suavemente a la derecha y después a la izquierda. Luego repite el gesto seis veces, con mayor violencia cada vez. Si no se te rompe ningún diente, eso es la fortuna.` },
   { n:10, title:"SUERTE", author:"GUILLERMO IGLESIAS", text: `Ella tan profesional independiente, tan discreto Chanel o lo que sea. Tan Kerouac que imaginate, y alguna Pizarnik aunque me mate Tan Las Palabras y la Cosas y lento pinot gris oxigenado. Uno tan cerveza en palangana, tan bestia choripán que no se note. Ella departiendo amablemente y uno tan perdiéndose en su escote. Ella tanto cello en la penumbra y uno BB King alcoholizado. Ella tan mirá si no es divino inclinada sobre el tiesto señalado y uno sí, precioso y redondito (nunca logra mirar hacia otro lado). Tan no puede funcionar hacete cargo y sigue funcionando, sin embargo.` },
-  { n:11, isMulti: true, stories: [
-      { title:"TENTACIONES", author:"DIANA RAQUEL HERNÁNDEZ", text: `Él me esperaba en un auto lujoso, me habló de los últimos sucesos en su vida: concluir el posgrado, casa y auto nuevos; todo lo que cualquiera pudiera desear. Habló de sus mujeres en mi ausencia. "¿Tú no me vas a contar nada? No me digas que te dio amnesia y ahora los negarás a todos ellos. Propuso detenernos a beber algo. Entramos a un hotel lujoso, nada que ver a con los que antes visité: un gran salón para parejas, todos con el aperitivo en la mano, el momento previo a escabullirse a una habitación. El juego de seducción no se hizo esperar. "No puedo aceptar. Tú eres el diablo, ¿verdad?".` },
-      { title:"DESORGANIZADO", author:"CARO FERNÁNDEZ", text: `Apostó todo al número 22 en la quiniela matutina. Esa noche soñó con el loco.` }
+  { n:11, stories: [
+    { title:"TENTACIONES", author:"DIANA RAQUEL HERNÁNDEZ", text: `Él me esperaba en un auto lujoso, me habló de los últimos sucesos en su vida: concluir el posgrado, casa y auto nuevos; todo lo que cualquiera pudiera desear. Habló de sus mujeres en mi ausencia. "¿Tú no me vas a contar nada? No me digas que te dio amnesia y ahora los negarás a todos ellos. Propuso detenernos a beber algo. Entramos a un hotel lujoso, nada que ver a con los que antes visité: un gran salón para parejas, todos con el aperitivo en la mano, el momento previo a escabullirse a una habitación. El juego de seducción no se hizo esperar. "No puedo aceptar. Tú eres el diablo, ¿verdad?".` },
+    { title:"DESORGANIZADO", author:"CARO FERNÁNDEZ", text: `Apostó todo al número 22 en la quiniela matutina. Esa noche soñó con el loco.` }
   ]},
   { n:12, title:"HADO DE UN DÍA CUALQUIERA", author:"FERNANDO ECHENIQUE", text: `La ventana quedó apenas abierta y el viento esconde las entradas bajo la cama. Javier las busca desesperado, con sueño y lagañas, sin saber que esos boletos ya no son suyos, que la obra de esta noche no será para él. Sale tarde y pierde el micro. Sube al siguiente. Una mirada azul con zapatos rojos alegra su mañana. Coquetean, sonríen, se distrae. Suena el timbre y descubre que se pasó tres paradas. Baja apurado, voltea para mirarla una vez más sin escuchar el chillido. Tirado en el asfalto, mientras se desvanece, piensa en las ganas que tenía de ir a esa obra y mira los tacones rojos que lloran azul.` },
   { n:13, title:"LA PRIMERA PIEDRA", author:"JOSÉ MANUEL ORTÍZ SOTO", text: `No pensó en el dueño del almacén. Ni si éste contaba con un seguro contra actos vandálicos. O si había cámaras de vigilancia observándolo. Y menos en si él, en su próxima condición de bárbaro juvenil, tendría el tiempo suficiente para eludir a los gendarmes y sus porras. A Juanito solo le pareció irresistible cascar aquel cristal de una pedrada. Y así lo hizo.` },
   { n:14, title:"UN DETALLITO", author:"HERNÁN CHALO INDIVERI", text: `La final, la tenía ganada antes de clasificar, mis menús habían cautivado a 3 de los 4 jurados desde el comienzo del certamen. El plato con el que ganaría, hubiera sido “Bife de hígado de cerdo feliz, papas noisette del altiplano boliviano, finas hierbas, hummus de garbanzo kabuli con morrón asado”. El postre “Tres uvas a la miel vaporizada” sería el boom de la noche. En la semifinal, el azar puso mi nombre en el tazón del jurado envidioso. Buscó la mínima excusa para eliminarme. Suerte para él, que un coriandro, se le incrustó en la muela careada. Una simple semilla.` },
-  { n:15, title:"EL JUEGO DEL DESTINO", author:"JESÚS OLAGUE", text: `Aburridos, los dioses señalan a ciegas un lugar de la tierra y lanzan el dado del mal; a cada cara corresponde una catástrofe, así se suceden guerras, desastres, epidemias. El dado del bien se extravió hace miles de años; por más que la humanidad implore, los milagros ya no existen.` },
+  { n:15, stories: [
+    { title:"EL JUEGO DEL DESTINO", author:"JESÚS OLAGUE", text: `Aburridos, los dioses señalan a ciegas un lugar de la tierra y lanzan el dado del mal; a cada cara corresponde una catástrofe, así se suceden guerras, desastres, epidemias. El dado del bien se extravió hace miles de años; por más que la humanidad implore, los milagros ya no existen.` },
+    { title:"COINCIDENCIA", author:"JUAN ROMAGNOLI", text: `Escribo la historia de Z:Z camina por la calle en una agradable tarde de verano. En una esquina se cruza con X y se detiene a conversar con él. X le comenta que ha leído una historia donde Z conversa con X en una esquina. Z expresa su asombro por la coincidencia\n—¿Qué coincidencia? —pregunta X\n—No lo sé...—duda Z, y se aleja desconcertado.` }
+  ]},
   { n:16, title:"COINCIDENCIA", author:"JUAN ROMAGNOLI", text: `Escribo la historia de Z:Z camina por la calle en una agradable tarde de verano. En una esquina se cruza con X y se detiene a conversar con él. X le comenta que ha leído una historia donde Z conversa con X en una esquina. Z expresa su asombro por la coincidencia\n—¿Qué coincidencia? —pregunta X\n—No lo sé...—duda Z, y se aleja desconcertado.` },
   { n:17, title:"LA CASA SIEMPRE GANA", author:"JUAN MANUEL MONTES", text: `Toda la noche estuvo iluminado por un azar radiante. No quiso cometer viejos errores y fue directo a la caja. Un empleado lo felicitó y le ofreció una suite gratis. Sonrió al rechazar la trampa. Llegó al estacionamiento con un bolso repleto de efectivo. Allí, cada paso era una sombra, un eco. Caminó hacia su auto sintiéndose incómodo. Dentro, con el futuro pisándole los talones, respiró agitado. El corazón, en cambio, se le detuvo como una ruleta. Lo encontraron una semana después. Nadie reclamó el cuerpo. \nEl río sin cauce del dinero volvió a escurrirse en el casino.` },
-  { n:18, isMulti: true, stories: [{ title:"El Oráculo de Triple C", author:"Triple C", text: "La suerte está de tu lado. Has invocado al oráculo de Triple C. Al lanzar nuevamente los dados, se te otorgará un microrrelato relacionado con tu subconsciente." }] }
+  { n:18, stories: [{ title:"El Oráculo de Triple C", author:"Triple C", text: "La suerte está de tu lado. Has invocado al oráculo de Triple C. Al lanzar nuevamente los dados, se te otorgará un microrrelato relacionado con tu subconsciente." }] }
 ];
 const byN = Object.fromEntries(pieces.map(p=>[p.n,p]));
 
-let currentMultiPiece = null;
-let currentStoryIndex = 0;
-
-const dice1 = document.getElementById('dice1');
-const dice2 = document.getElementById('dice2');
-const dice3 = document.getElementById('dice3');
-const allDice = [dice1, dice2, dice3];
+let lastSum = 0;
+let lastRolls = []; 
+let isRolling = false;
 const rollBtn = document.getElementById('rollBtn');
 const imgBtn = document.getElementById('imgBtn');
 const badge = document.getElementById('badge');
@@ -265,11 +281,12 @@ const titleEl = document.getElementById('title');
 const authorEl = document.getElementById('author');
 const contentEl = document.getElementById('content');
 const sumDescription = document.querySelector('.small'); 
-const textNavEl = document.getElementById('textNav');
 
-let isRolling = false;
-let lastSum = 0;
-let lastRolls = []; 
+const dice1 = document.getElementById('dice1');
+const dice2 = document.getElementById('dice2');
+const dice3 = document.getElementById('dice3');
+const allDice = [dice1, dice2, dice3];
+
 
 function getRandomRolls() {
     let n1, n2, n3, sum;
@@ -285,84 +302,90 @@ function getRandomRolls() {
 function baseOrientation(n){ switch(n){ case 1: return 'rotateX(0deg) rotateY(0deg)'; case 2: return 'rotateY(-90deg)'; case 3: return 'rotateY(-180deg)'; case 4: return 'rotateY(90deg)'; case 5: return 'rotateX(-90deg)'; case 6: return 'rotateX(90deg)'; } }
 function spinTo(n1, n2, n3){ const rolls = [n1, n2, n3]; allDice.forEach((dice, index) => { const n = rolls[index]; const turnsY = 360 * (2 + Math.floor(Math.random()*2)); const turnsX = 360 * (1 + Math.floor(Math.random()*2)); dice.style.transition = 'transform 1.05s cubic-bezier(.2,.7,.1,1)'; dice.style.transform = `rotateX(${turnsX}deg) rotateY(${turnsY}deg) ${baseOrientation(n)}`; }); }
 
-function displayStoryContent(story, sum) {
-    titleEl.textContent = story.title;
-    authorEl.textContent = story.author;
-
-    if (sum === 3 || sum === 4 || sum === 18) {
-        contentEl.innerHTML = `
-            <img src="logotripleC.jpeg" alt="Logo Triple C" style="max-width: 100%; max-height: 200px; height: auto; display: block; margin: 0 auto 1em;">
-            <p style="text-align: center; font-style: italic;">${story.text}</p>`;
+function displayStoryContent(piece, sum) {
+    const isDupla = Array.isArray(piece.stories) && piece.stories.length > 1;
+    
+    // 1. Set Title and Author based on Dupla, Oráculo or Single
+    if (isDupla) {
+        titleEl.innerHTML = '2X1 <span style="font-weight:400">¡Tu fortuna se duplicó! Ganaste dos textos en una sola tirada.</span>';
+        authorEl.textContent = 'Microrrelatos: ' + piece.stories.map(s => s.title).join(' / ');
+    } else if (sum === 3 || sum === 18) {
+        titleEl.textContent = piece.stories[0].title;
+        authorEl.textContent = piece.stories[0].author;
     } else {
-        contentEl.innerHTML = story.text
+        titleEl.textContent = piece.title;
+        authorEl.textContent = piece.author;
+    }
+    
+    // 2. Format Content
+    let contentHTML = '';
+
+    if (sum === 3 || sum === 18) { // Oráculo (Logo)
+        contentHTML = `
+            <img src="logotriplec.jpeg" alt="Logo Triple C" style="max-width: 100%; max-height: 200px; height: auto; display: block; margin: 0 auto 1em;">
+            <p style="text-align: center; font-style: italic;">${piece.stories[0].text}</p>`;
+    } else if (isDupla) {
+        piece.stories.forEach((story) => {
+            contentHTML += `
+                <div class="text-dupla">
+                    <h3>${story.title}</h3>
+                    <p class="author">${story.author}</p>
+                    ${story.text.split(/\n+/).map(par => `<p>${par}</p>`).join('')}
+                </div>`;
+        });
+    } else { // Single Story
+        contentHTML = piece.text
             .split(/\n+/)
             .map(par => `<p>${par}</p>`)
             .join('');
     }
+
+    contentEl.innerHTML = contentHTML;
 }
 
-function updateNavButtons() {
-    if (!currentMultiPiece || currentMultiPiece.stories.length <= 1) {
-        textNavEl.innerHTML = '';
-        return;
-    }
-    const prevDisabled = currentStoryIndex === 0 ? 'disabled' : '';
-    const nextDisabled = currentStoryIndex === currentMultiPiece.stories.length - 1 ? 'disabled' : '';
-    textNavEl.innerHTML = `
-        <button onclick="prevStory()" ${prevDisabled}>← Anterior</button>
-        <button onclick="nextStory()" ${nextDisabled}>Siguiente →</button>
-    `;
-}
-
-function prevStory() {
-    if (currentStoryIndex > 0) {
-        currentStoryIndex--;
-        displayStoryContent(currentMultiPiece.stories[currentStoryIndex], lastSum);
-        updateNavButtons();
-    }
-}
-
-function nextStory() {
-    if (currentStoryIndex < currentMultiPiece.stories.length - 1) {
-        currentStoryIndex++;
-        displayStoryContent(currentMultiPiece.stories[currentStoryIndex], lastSum);
-        updateNavButtons();
-    }
-}
 
 function reveal(rolls, sum){
-  const p = byN[sum];
-  if (!p) {
-    console.error("No se encontró historia para la suma:", sum);
-    return;
-  }
-  badge.textContent = sum;
-  sumDescription.innerHTML = `Suma total: ${rolls[0]} + ${rolls[1]} + ${rolls[2]} =`;
-  
-  lastSum = sum;
-  lastRolls = rolls;
-  currentMultiPiece = null;
-  currentStoryIndex = 0;
-
-  if (p.isMulti) {
-      currentMultiPiece = p;
-      displayStoryContent(p.stories[0], sum);
-      updateNavButtons();
-  } else {
-      titleEl.textContent = p.title;
-      authorEl.textContent = p.author;
-      contentEl.innerHTML = p.text.split(/\n+/).map(par => `<p>${par}</p>`).join('');
-      textNavEl.innerHTML = '';
-  }
-  
-  imgBtn.disabled = false;
+    const p = byN[sum];
+    if (!p) {
+      console.error("No se encontró historia para la suma:", sum);
+      return;
+    }
+    badge.textContent = sum;
+    sumDescription.innerHTML = `Suma total: ${rolls[0]} + ${rolls[1]} + ${rolls[2]} =`;
+    
+    lastSum = sum;
+    lastRolls = rolls;
+    
+    displayStoryContent(p, sum);
+    
+    imgBtn.disabled = false;
 }
 
-function roll(){ if(isRolling) return; isRolling = true; rollBtn.disabled = true; imgBtn.disabled = true; const { n1, n2, n3, sum } = getRandomRolls(); spinTo(n1, n2, n3); setTimeout(()=>{ reveal([n1, n2, n3], sum); isRolling = false; rollBtn.disabled = false; }, 1100); }
+function roll(){ 
+    if(isRolling) return; 
+    isRolling = true; 
+    rollBtn.disabled = true; 
+    imgBtn.disabled = true; 
+    
+    // Obtener los rolls y la suma
+    const { n1, n2, n3, sum } = getRandomRolls(); 
+
+    // Girar los dados
+    spinTo(n1, n2, n3); 
+    
+    setTimeout(()=>{ 
+      // Mostrar el resultado de la suma (el texto)
+      reveal([n1, n2, n3], sum); 
+      isRolling = false; 
+      rollBtn.disabled = false; 
+    }, 1100); 
+}
+
+
 function wrapParagraph(ctx, text, maxWidth){ const words = text.split(/\s+/); const lines = []; let line = ''; for(const w of words){ const test = line ? line + ' ' + w : w; if(ctx.measureText(test).width <= maxWidth){ line = test; }else{ if(line) lines.push(line); line = w; } } if(line) lines.push(line); return lines.map((t,i)=>({ text:t, first:i===0, last:i===lines.length-1 })); }
 function drawJustifiedLine(ctx, text, x, y, width){ const words = text.split(/\s+/); if(words.length <= 1){ ctx.fillText(text, x, y); return; } const totalWordsWidth = words.reduce((acc,w)=> acc + ctx.measureText(w).width, 0); const gaps = words.length - 1; const spaceWidth = ctx.measureText(' ').width; const extra = (width - totalWordsWidth - spaceWidth*gaps) / gaps; let xx = x; for(let i=0;i<words.length;i++){ const w = words[i]; ctx.fillText(w, xx, y); if(i<gaps) xx += ctx.measureText(w).width + spaceWidth + Math.max(extra,0); } }
 
-async function renderImageFor(storyData, currentSum, rolls) {
+async function renderImageFor(piece, currentSum, rolls) {
     const W=1080, H=1350, PAD=96;
     const canvas = document.createElement('canvas');
     canvas.width=W;
@@ -377,75 +400,193 @@ async function renderImageFor(storyData, currentSum, rolls) {
     ctx.strokeStyle = 'rgba(255,255,255,.08)';
     ctx.lineWidth = 4;
     ctx.strokeRect(2,2,W-4,H-4);
+    
+    const family='system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial';
+    const INDENT = 40;
+    const X=PAD, CW=W-PAD*2; 
+    let y=PAD;
+    const isOraculo = currentSum === 3 || currentSum === 18;
+    const isDupla = Array.isArray(piece.stories) && piece.stories.length > 1;
+
+    // 1. Mostrar la suma en la parte superior
+    let titleSize = 64;
+    ctx.fillStyle='#9fb2d9';
+    ctx.font=`600 28px ${family}`;
+    const sumText = `Suma total: ${rolls[0]} + ${rolls[1]} + ${rolls[2]} = ${currentSum}`;
+    ctx.fillText(sumText, X, y);
+    y += 28 * 2;
+    
     return new Promise((resolve, reject) => {
-        if (currentSum === 3 || currentSum === 4 || currentSum === 18) {
-            const img = new Image();
-            img.crossOrigin = 'Anonymous';
-            img.onload = () => {
-                const imgWidth = W * 0.75;
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+
+        img.onload = () => {
+            if (isOraculo) {
+                // Lógica de Oráculo
+                const imgWidth = 800;
                 const imgHeight = (img.height / img.width) * imgWidth;
                 const x = (W - imgWidth) / 2;
-                const y = (H - imgHeight) / 2;
-                ctx.drawImage(img, x, y, imgWidth, imgHeight);
-                const footer = 'Triple C · Que la suerte te acompañe';
-                ctx.font = `600 28px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial`;
-                ctx.fillStyle = 'rgba(255,255,255,.55)';
-                const fw = ctx.measureText(footer).width;
-                ctx.fillText(footer, W - PAD - fw, H - PAD * 0.6);
-                canvas.toBlob(blob => resolve(blob), 'image/png');
-            };
-            img.onerror = () => reject(new Error("Error al cargar la imagen del logo."));
-            img.src = "logotripleC.jpeg";
-        } else {
-            let titleSize=64, authorSize=38, bodySize=44;
-            const family='system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial';
-            const INDENT = 40;
-            const X=PAD, CW=W-PAD*2; let y=PAD;
-            ctx.fillStyle='#9fb2d9';
-            ctx.font=`400 28px ${family}`;
-            const sumText = `Suma total: ${rolls[0]} + ${rolls[1]} + ${rolls[2]} = ${currentSum}`;
-            ctx.fillText(sumText, X, y);
-            y += 28 * 1.5;
-            ctx.fillStyle='#eaf2ff'; ctx.font=`700 ${titleSize}px ${family}`;
-            const titleLines = wrapParagraph(ctx, storyData.title, CW);
-            for(const L of titleLines){ ctx.fillText(L.text, X, y+titleSize); y += titleSize*1.15; }
-            y += 18;
-            ctx.fillStyle='#9fb2d9';
-            ctx.font=`600 ${authorSize}px ${family}`;
-            ctx.fillText(storyData.author.toUpperCase(), X, y+authorSize);
-            y += authorSize*1.35;
-            ctx.fillStyle='#eef3ff';
-            let linesMeta;
-            while(true){
-                ctx.font=`400 ${bodySize}px ${family}`;
-                linesMeta = [];
-                for(const para of storyData.text.split(/\n+/)){
+                const yDraw = y + 50; 
+                ctx.drawImage(img, x, yDraw, imgWidth, imgHeight);
+                y = yDraw + imgHeight + 50;
+                
+                ctx.fillStyle='#eaf2ff';
+                ctx.font=`400 36px ${family}`;
+                ctx.textAlign = 'center';
+                ctx.fillText(piece.stories[0].text, W/2, y + 40);
+                ctx.textAlign = 'left';
+
+            } else if (isDupla) {
+                // Lógica de Dupla
+                let bodySize = 34; // Tamaño inicial para el cuerpo de la Dupla
+                const PADDING_BETWEEN_STORIES = 60;
+                
+                // Cálculo del tamaño de fuente que cabe en la tarjeta
+                while(true){
+                    let totalHeightNeeded = 0;
+                    ctx.font=`400 ${bodySize}px ${family}`;
+                    
+                    // Altura del encabezado 2X1
+                    totalHeightNeeded += titleSize * 1.15; // 2X1
+                    totalHeightNeeded += 36 * 1.5;        // Subtítulo
+                    totalHeightNeeded += 32 * 1.5;        // Microrrelatos:
+
+                    // Altura de los textos
+                    for(let i=0; i<piece.stories.length; i++){
+                        const story = piece.stories[i];
+                        
+                        // Title and Author
+                        totalHeightNeeded += bodySize * 1.2; // Título (approx)
+                        totalHeightNeeded += bodySize * 1.35; // Autor (approx)
+                        
+                        // Body text
+                        for(const para of story.text.split(/\n+/)){
+                            const ls = wrapParagraph(ctx, para, CW - INDENT);
+                            totalHeightNeeded += ls.length * bodySize * 1.35;
+                            totalHeightNeeded += bodySize * 0.7; // Para gap
+                        }
+
+                        // Separator
+                        if (i < piece.stories.length - 1) {
+                            totalHeightNeeded += PADDING_BETWEEN_STORIES;
+                        }
+                    }
+                    
+                    const needed = y + totalHeightNeeded + PAD;
+                    if(needed <= H || bodySize <= 22) break; // Límite mínimo
+                    bodySize -= 1;
+                }
+                
+                // Dibujar Encabezado 2X1
+                ctx.fillStyle='#eaf2ff'; 
+                ctx.font=`700 ${titleSize}px ${family}`;
+                ctx.fillText('2X1', X, y+titleSize); 
+                y += titleSize*1.15;
+                
+                ctx.fillStyle='#9fb2d9'; 
+                ctx.font=`400 36px ${family}`;
+                ctx.fillText('¡Tu fortuna se duplicó! Ganaste dos textos en una sola tirada.', X, y+36); 
+                y += 36*1.5;
+                
+                ctx.fillStyle='#9fb2d9';
+                ctx.font=`600 32px ${family}`;
+                ctx.fillText('MICRORRELATOS:', X, y+32); y += 32*1.5;
+
+                // Dibujar Dupla
+                for(let i=0; i<piece.stories.length; i++){
+                    const story = piece.stories[i];
+
+                    // 1. Title and Author
+                    ctx.fillStyle='#eaf2ff'; 
+                    ctx.font=`700 ${bodySize*1.1}px ${family}`;
+                    ctx.fillText(story.title, X, y + bodySize*1.1); y += bodySize*1.2;
+                    
+                    ctx.fillStyle='#9fb2d9'; 
+                    ctx.font=`600 ${bodySize}px ${family}`;
+                    ctx.fillText(story.author.toUpperCase(), X, y + bodySize); y += bodySize*1.35;
+
+                    // 2. Body Text
+                    ctx.fillStyle='#eef3ff';
+                    ctx.font=`400 ${bodySize}px ${family}`;
+                    
+                    for(const para of story.text.split(/\n+/)){
+                        const lines = wrapParagraph(ctx, para, CW - INDENT);
+                        for(const L of lines){
+                            const x0 = X + (L.first ? INDENT : 0);
+                            const usable = CW - (L.first ? INDENT : 0);
+                            const yLine = y + bodySize;
+                            if(!L.last && L.text.includes(' ')){
+                                drawJustifiedLine(ctx, L.text, x0, yLine, usable);
+                            }else{
+                                ctx.fillText(L.text, x0, yLine);
+                            }
+                            y += bodySize*1.35;
+                        }
+                        y += bodySize*0.7; // Paragraph gap
+                    }
+
+                    // 3. Separator
+                    if (i < piece.stories.length - 1) {
+                        ctx.strokeStyle = 'rgba(255,255,255,.15)';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(X + 50, y);
+                        ctx.lineTo(W - PAD - 50, y);
+                        ctx.stroke();
+                        y += PADDING_BETWEEN_STORIES;
+                    }
+                }
+            } else {
+                // Lógica de Historia Individual (Single Story)
+                let authorSize=38, bodySize=44;
+
+                ctx.fillStyle='#eaf2ff'; ctx.font=`700 ${titleSize}px ${family}`;
+                const titleLines = wrapParagraph(ctx, piece.title, CW);
+                for(const L of titleLines){ ctx.fillText(L.text, X, y+titleSize); y += titleSize*1.15; }
+                
+                y += 18; 
+                ctx.fillStyle='#9fb2d9'; ctx.font=`600 ${authorSize}px ${family}`;
+                ctx.fillText(piece.author.toUpperCase(), X, y+authorSize); y += authorSize*1.35;
+                
+                ctx.fillStyle='#eef3ff';
+                let linesMeta;
+                while(true){
+                  ctx.font=`400 ${bodySize}px ${family}`;
+                  linesMeta = [];
+                  for(const para of piece.text.split(/\n+/)){
                     const ls = wrapParagraph(ctx, para, CW - INDENT);
                     linesMeta.push(...ls, { text:'', first:false, last:true, isGap:true });
+                  }
+                  if(linesMeta.length && linesMeta[linesMeta.length-1].isGap) linesMeta.pop();
+                  const needed = y + linesMeta.reduce((acc,l)=> acc + (l.isGap ? bodySize*0.7 : bodySize*1.35), 0) + PAD;
+                  if(needed <= H || bodySize <= 28) break;
+                  bodySize -= 2;
                 }
-                if(linesMeta.length && linesMeta[linesMeta.length-1].isGap) linesMeta.pop();
-                const needed = y + linesMeta.reduce((acc,l)=> acc + (l.isGap ? bodySize*0.7 : bodySize*1.35), 0) + PAD;
-                if(needed <= H || bodySize <= 28) break;
-                bodySize -= 2;
-            }
-            for(const L of linesMeta){
-                if(L.isGap){ y += bodySize*0.7; continue; }
-                const x0 = X + (L.first ? INDENT : 0);
-                const usable = CW - (L.first ? INDENT : 0);
-                const yLine = y + bodySize;
-                if(!L.last && L.text.includes(' ')){
+                
+                for(const L of linesMeta){
+                  if(L.isGap){ y += bodySize*0.7; continue; }
+                  const x0 = X + (L.first ? INDENT : 0);
+                  const usable = CW - (L.first ? INDENT : 0);
+                  const yLine = y + bodySize;
+                  if(!L.last && L.text.includes(' ')){
                     drawJustifiedLine(ctx, L.text, x0, yLine, usable);
-                }else{
+                  }else{
                     ctx.fillText(L.text, x0, yLine);
+                  }
+                  y += bodySize*1.35;
                 }
-                y += bodySize*1.35;
             }
+
+            // Footer (Se aplica a todos los casos)
             const footer='Triple C · Que la suerte te acompañe';
             ctx.font=`600 28px ${family}`; ctx.fillStyle='rgba(255,255,255,.55)';
-            const fw=ctx.measureText(footer).width;
-            ctx.fillText(footer, W-PAD-fw, H-PAD*0.6);
+            const fw = ctx.measureText(footer).width; 
+            ctx.fillText(footer, W - PAD - fw, H - PAD * 0.6);
+            
             canvas.toBlob(blob => resolve(blob), 'image/png');
-        }
+        };
+        img.onerror = () => reject(new Error("Error al cargar la imagen del logo."));
+        img.src = "logotriplec.jpeg";
     });
 }
 
@@ -453,46 +594,37 @@ async function saveImage(){
     const p = byN[lastSum];
     if(!p) return;
 
-    if (p.isMulti) {
-        for (let i = 0; i < p.stories.length; i++) {
-            const story = p.stories[i];
-            try {
-                const blob = await renderImageFor(story, lastSum, lastRolls);
-                if (blob) {
-                    await new Promise(resolve => setTimeout(resolve, i * 500));
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    const safeTitle = story.title.replace(/[^\w\-]+/g,'_');
-                    a.href = url;
-                    a.download = (lastSum === 3 || lastSum === 4 || lastSum === 18) ? `Triple_C_Oraculo.png` : `${safeTitle}.png`;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    URL.revokeObjectURL(url);
-                }
-            } catch (error) {
-                console.error("Error al generar la imagen:", error);
-            }
-        }
+    // Determina el nombre del archivo
+    let fileName = '';
+    if (lastSum === 3 || lastSum === 18) {
+        fileName = 'Triple_C_Oraculo.png';
+    } else if (Array.isArray(p.stories) && p.stories.length > 1) {
+        const safeTitle = p.stories[0].title.replace(/[^\w\-]+/g,'_');
+        fileName = `${safeTitle}_Dupla.png`;
     } else {
-        try {
-            const blob = await renderImageFor(p, lastSum, lastRolls);
-            if(blob){
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                const safeTitle = p.title.replace(/[^\w\-]+/g,'_');
-                a.href = url;
-                a.download = `${safeTitle}.png`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-            }
-        } catch (error) {
-            console.error("Error al generar la imagen: ", error);
+        const safeTitle = p.title.replace(/[^\w\-]+/g,'_');
+        fileName = `${safeTitle}.png`;
+    }
+    
+    try {
+        const blob = await renderImageFor(p, lastSum, lastRolls); 
+        if(blob){
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        } else {
+            console.error("No se pudo generar la imagen para descargar.");
         }
+    } catch (error) {
+        console.error("Error al generar la imagen: ", error);
     }
 }
+
 
 rollBtn.addEventListener('click', roll);
 document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='r') roll(); });
